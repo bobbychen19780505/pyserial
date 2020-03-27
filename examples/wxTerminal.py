@@ -31,17 +31,17 @@ class SerialRxEvent(wx.PyCommandEvent):
         self.data = data
 
     def Clone(self):
-        self.__class__(self.GetId(), self.data)
+        return self.__class__(self.GetId(), self.data)
 
 # ----------------------------------------------------------------------
 
-ID_CLEAR = wx.NewId()
-ID_SAVEAS = wx.NewId()
-ID_SETTINGS = wx.NewId()
-ID_TERM = wx.NewId()
-ID_EXIT = wx.NewId()
-ID_RTS = wx.NewId()
-ID_DTR = wx.NewId()
+ID_CLEAR = wx.NewIdRef()
+ID_SAVEAS = wx.NewIdRef()
+ID_SETTINGS = wx.NewIdRef()
+ID_TERM = wx.NewIdRef()
+ID_EXIT = wx.NewIdRef()
+ID_RTS = wx.NewIdRef()
+ID_DTR = wx.NewIdRef()
 
 NEWLINE_CR = 0
 NEWLINE_LF = 1
@@ -316,7 +316,7 @@ class TerminalFrame(wx.Frame):
             elif self.settings.newline == NEWLINE_CRLF:
                 self.serial.write(b'\r\n')   # send CR+LF
         else:
-            char = unichr(code)
+            char = chr(code)
             if self.settings.echo:          # do echo if needed
                 self.WriteText(char)
             self.serial.write(char.encode('UTF-8', 'replace'))         # send the character
